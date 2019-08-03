@@ -9,6 +9,7 @@ import {
 export default function Button  (props) {
     return(
         <TouchableOpacity 
+        onPress = {props.onPress}
             style={[{
                 width: "100%",
                 justifyContent: 'center',

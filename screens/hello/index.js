@@ -4,7 +4,7 @@ import ViewBg from './ViewBg.js'
 const bgImage = require("./img/bg.jpg");
 import LocalStyle from './locStyle';
 import { Ionicons } from '@expo/vector-icons';
-import Button from './button/button.js';
+import Button from '../globalModules/button/button.js';
 
 
 
@@ -12,11 +12,13 @@ export default class Hello extends React.Component{
     constructor(props){
         super(props);
         this.style = LocalStyle();
-
+        this.toInfo = ()=>{props.navigation.navigate('Info')}
+        
     }
 
     render(){
         const style = this.style
+
         return(
             <ViewBg source = {bgImage}>
                 <View style={style.topBar}>
@@ -34,7 +36,7 @@ export default class Hello extends React.Component{
                    
                 </View>
                 <View style={style.buttonBox}>
-                    <Button> Сканировать </Button>
+                    <Button onPress={this.toInfo}> Сканировать </Button>
                     <Button style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
                 </View>
             </ViewBg>        

@@ -1,23 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Info from './screens/info/';
+import InfoBlock from './screens/info/';
+import HelloBlock from './screens/hello/';
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
+// let Info = InfoBlock()
+// let Hello = HelloBlock()
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HelloBlock,
+  },
+  Info: {
+    screen: InfoBlock,
+  },
+}, {
+    initialRouteName: 'Home',
+    headerMode:'none'
+});
+
+const AppContainer = createAppContainer(AppNavigator);
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Info/>
-    </View>
-  );
+  return <AppContainer />;
+  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center', 
-  },
-});
+
 
 
