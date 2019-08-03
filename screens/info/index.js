@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet,ScrollView,  Text, View, Image } from 'react-native';
 import LocalStyle from './localStyle';
 import colors from '../../assets/colors';
-import TopBar from './TopBar';
+import TopBar from '../globalModules/TopBar';
 import BottomBar from "../globalModules/BottomBar/index.js"
 import NavLinck from '../globalModules/navlinck';
 // import ViewBg from './ViewBg.js'
@@ -10,24 +10,20 @@ import NavLinck from '../globalModules/navlinck';
 // import { Ionicons } from '@expo/vector-icons';
 
 export default class Info extends React.Component{
-    constructor(props){
-        super(props);
-        this.style = LocalStyle();
-
-        this.back = ()=>{props.navigation.goBack()}
-
-    }
 
     render(){
-        const style= this.style;
-        const back = this.back;
+        const style= LocalStyle();
+        const back = ()=>{this.props.navigation.goBack()}
+        const toMenu = ()=>{this.props.navigation.navigate('Menu')}
+        const toScaner = ()=>{this.props.navigation.navigate('Scaner')};
+        
         return(
-            <View style={this.style.container}>
-                <TopBar handlers={{back}} color = {colors.main}>Информация</TopBar>
+            <View style={style.container}>
+                <TopBar handlers={[back,toMenu]} color = {colors.main}>Информация</TopBar>
                 <ScrollView
                     style={{paddingHorizontal:10}}
                 >
-                    <NavLinck style={{marginTop:20}} >Что нужно сделать для того что бы участвовать в розыгрыше?</NavLinck>
+                    <NavLinck style={{marginTop:10}} >Что нужно сделать для того что бы участвовать в розыгрыше?</NavLinck>
                     <NavLinck >Какие призы я могу получить?</NavLinck>
                     <NavLinck >Как я узнаю, что я победитель?</NavLinck>
                     <NavLinck >Это единоразовый розыгрыш,или они будут проходить постоянно?</NavLinck>
@@ -47,7 +43,7 @@ export default class Info extends React.Component{
                     </View>
 
                 </ScrollView>
-                <BottomBar />
+                <BottomBar onPress = {toScaner} />
             </View>
         )
     }

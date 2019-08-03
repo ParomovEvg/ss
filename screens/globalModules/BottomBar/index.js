@@ -5,12 +5,12 @@ import Button from '../button/button';
 import Timer from './timer.js'
 
 export default function(props){
-    let time= new Date(2019,9,2,14,35)
+    let time= new Date(2019,7,15,14,35)
     return(
         <View style={style.container}>
             <Image style={style.bgimage}  source={require('./qr.png')} resizeMode = "cover" />
             <Timer {...{time}}/>
-            <Button style={style.button} > Сканировать </Button>
+            <Button style={style.button} onPress={props.onPress} > Сканировать </Button>
 
         </View>
     )
@@ -18,6 +18,8 @@ export default function(props){
 
 const style = StyleSheet.create({
     container:{
+        paddingTop: 20,
+        overflow: 'hidden',
         marginTop: "auto",
         backgroundColor: colors.main,
         width: "100%",
@@ -28,7 +30,7 @@ const style = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
-        borderRadius: 15,
+        // borderRadius: 15,
         elevation: 1,
     },
     bgimage:{

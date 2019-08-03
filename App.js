@@ -1,19 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import InfoBlock from './screens/info/';
-import HelloBlock from './screens/hello/';
+import Info from './screens/info/';
+import Hello from './screens/hello/';
+import Menu from './screens/menu/';
+import Scaner from './screens/scaner/';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-// let Info = InfoBlock()
-// let Hello = HelloBlock()
 
 const AppNavigator = createStackNavigator({
   Home: {
-    screen: HelloBlock,
+    screen: Hello,
   },
   Info: {
-    screen: InfoBlock,
+    screen: Info,
   },
+  Menu: {
+    screen: Menu,
+  },
+  Scaner: {
+    screen: Scaner,
+  }
 }, {
     initialRouteName: 'Home',
     headerMode:'none'

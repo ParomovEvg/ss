@@ -83,7 +83,7 @@ export default class Timer extends React.Component {
                 </View>
                 <View style={style.minWrap}>
                     <Text style={style.textAct}>
-                        Минут
+                        минут
                     </Text>
                     <Text style={style.textMin}>
                         {mins}
@@ -99,7 +99,7 @@ export default class Timer extends React.Component {
 
 var style = StyleSheet.create({
     container:{
-        marginTop:10, 
+        // marginTop:10, 
         flexDirection:"row", 
         alignItems: "center", 
         alignItems:"flex-end",
