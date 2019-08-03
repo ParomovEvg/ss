@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet,  Text, View, Image } from 'react-native';
-import colors from '../../../assets/colors/';
-import Button from '../button/button';
+import colors from '../../../assets/colors.js';
+import Button from '../button/button.js';
 import Timer from './timer.js'
 
 export default function(props){

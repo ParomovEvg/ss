@@ -1,6 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { NativeModulesProxy } from '@unimodules/core';
-import { AuthSession } from 'expo';
 
 
 

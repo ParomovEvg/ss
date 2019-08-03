@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet,ScrollView,  Text, View, Image } from 'react-native';
-import LocalStyle from './localStyle';
-import colors from '../../assets/colors';
-import TopBar from '../globalModules/TopBar';
+import LocalStyle from './localStyle.js';
+import colors from '../../assets/colors.js';
+import TopBar from '../globalModules/TopBar.js';
 import BottomBar from "../globalModules/BottomBar/index.js"
-import NavLinck from '../globalModules/navlinck';
+import NavLinck from '../globalModules/navlinck.js';
 
 
 export default class Menu extends React.Component{

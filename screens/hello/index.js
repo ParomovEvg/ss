@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet,TouchableOpacity,  Text, View, Image } from 'react-native';
 import ViewBg from './ViewBg.js'
 const bgImage = require("./img/bg.jpg");
-import LocalStyle from './locStyle';
+import LocalStyle from './locStyle.js';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../globalModules/button/button.js';
 
