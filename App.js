@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Info from './screens/info/';
-import Hello from './screens/hello/';
-import Menu from './screens/menu/';
-import Scaner from './screens/scaner/';
+import Info from './screens/info/index.js';
+import Hello from './screens/hello/index.js';
+import Menu from './screens/menu/index.js';
+import Scaner from './screens/scaner/index.js';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 
