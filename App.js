@@ -21,7 +21,7 @@ const AppNavigator = createStackNavigator({
     screen: Scaner,
   }
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Menu',
     headerMode:'none'
 });
 

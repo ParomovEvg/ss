@@ -3,8 +3,7 @@ import {StyleSheet,ScrollView,  Text, View, Image } from 'react-native';
 import LocalStyle from './localStyle.js';
 import colors from '../../assets/colors.js';
 import TopBar from '../globalModules/TopBar.js';
-import BottomBar from "../globalModules/BottomBar/index.js";
-import Сounter from './counter/counter.js';
+import BottomBar from "../globalModules/BottomBar/index.js"
 import NavLinck from '../globalModules/navlinck.js';
 import Hint from './hint.js';
 import Phone from './phone.js'
@@ -21,24 +20,12 @@ export default class Menu extends React.Component{
             <View style={style.container}>
                 <TopBar handlers={[back]} color = {colors.main} rightIcon={{style:{display: 'none',}}}>Меню</TopBar>
                 <ScrollView
-                    style={{paddingHorizontal:10, marginTop: 5,}}
+                    style={{paddingHorizontal:10}}
                 >
+                <Hint style={{marginTop: 20,}}>Введите ваш номер телефона, для того чтобы сканировать чеки и участвовать в розыгрыше</Hint>
                 <Text style={style.text}>Ваш номер телефона</Text>
                 <Phone />
-                <Сounter />
-                <Text style={style.text}> Полезная информация</Text>
-                    <View style={style.mainQuest} >
-                        <NavLinck styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
-                            <Text  style={style.shortLinksText1}>Правила</Text> 
-                            {/* <Text  style={style.shortLinksText2}>Подробные</Text> */}
-                        </NavLinck>
-                        <Dots/>
-                        <NavLinck  styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
-                            <Text style={style.shortLinksText1}>Задать вопрос</Text> 
-                            {/* <Text style={style.shortLinksText2}>Организаторам</Text> */}
-                        </NavLinck>
-                        
-                    </View>
+                <Hint style={{marginTop: 10,}}>В случае победы на ваш мобильный телефон придет смс с местом и временем вручения приза. </Hint>
                 </ScrollView>
                 <BottomBar onPress={toScaner}/>
             </View>

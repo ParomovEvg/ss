@@ -11,11 +11,10 @@ export default function(){
             paddingTop: 20,
         },
         text:{
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 'bold',
             color: colors.main,
-            marginTop: 10,
-            marginBottom:5,
+            marginTop: 15,
             paddingLeft: 10 ,
         },
         mainQuest:{
