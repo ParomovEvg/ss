@@ -20,7 +20,8 @@ class BarcodeScannerExample extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     if(this.props.wait && nextProps.ready){
       this.toThanks()
-      return false;
+      this.props.qrDump();
+      return true;
     } else return true;
 
   }
