@@ -5,11 +5,10 @@ const bgImage = require("./img/bg.jpg");
 import LocalStyle from './locStyle.js';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../globalModules/button/button.js';
-import { connect } from 'react-redux';
 
 
 
-class Hello extends React.Component{
+export default class Hello extends React.Component{
     // constructor(props){
     //     super(props)
     //     this.props = props
@@ -34,17 +33,15 @@ class Hello extends React.Component{
                 </View>
                 <View style={style.headBox}>
                    
-                     <Text style={style.headText}>Сканируй  </Text> 
-                     <Text style={style.headText}>QR код  </Text>
-                     <Text style={style.headText}>И выигрывай  </Text>
-                     <Text style={style.headText}>Смартфон </Text>
+                     <Text style={style.headText}>Вы успешно</Text> 
+                     <Text style={style.headText}>Отсканировали</Text>
+                     <Text style={style.headText}>QR код</Text>
+                     {/* <Text style={[style.headText, {fontSize:14}]}>Чеков на телефоне {3}</Text> */}
                    
                 </View>
                 <View style={style.buttonBox}>
-                    <Button 
-                        onPress={ this.props.store.phone.value ? toScaner : toMenu }
-                    > Сканировать </Button>
-                    <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
+                    <Button onPress={toScaner} > Сканировать снова</Button>
+                    <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Правила </Button>
                 </View>
             </ViewBg>        
         )
@@ -53,15 +50,4 @@ class Hello extends React.Component{
 
 
 
-const mapStateToProps = (store /*, ownProps*/) => {
-    return {
-      store
-    }
-}
   
-const mapDispatchToProps = {  }
-  
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Hello)

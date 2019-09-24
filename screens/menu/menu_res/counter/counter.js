@@ -3,14 +3,16 @@ import {
     StyleSheet,
     Text,
     View,
+    ActivityIndicator
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import Circle from './circleWithNumber.js' 
-import colors from '../../../assets/colors.js';
+import colors from '../../../../assets/colors.js';
 
 
 export default function Сounter  (props) {
     const style = getStyle(props)
+
 
 
     return(
@@ -23,7 +25,12 @@ export default function Сounter  (props) {
             </View>
             <View style={style.decorLine}/>
             <View style={[style.rightConainer]}>
-            <Circle num={3} style={{height:75,width:75}}/>
+            {
+            props.phoneChanging ?
+            <ActivityIndicator style={{height:75,width:75}}/> :
+            <Circle num={props.num}  style={{height:75,width:75}}/>
+
+            }  
 
             </View>
         </View>

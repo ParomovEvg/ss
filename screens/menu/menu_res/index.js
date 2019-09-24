@@ -1,32 +1,55 @@
 import React from 'react';
 import {StyleSheet,ScrollView,  Text, View, Image } from 'react-native';
 import LocalStyle from './localStyle.js';
-import colors from '../../assets/colors.js';
-import TopBar from '../globalModules/TopBar.js';
-import BottomBar from "../globalModules/BottomBar/index.js"
-import NavLinck from '../globalModules/navlinck.js';
+import colors from '../../../assets/colors.js';
+import TopBar from '../../globalModules/TopBar.js';
+import BottomBar from "../../globalModules/BottomBar/index.js";
+import Сounter from './counter/counter.js';
+import NavLinck from '../../globalModules/navlinck.js';
+import Phone from './phone.js';
+import res  from '../../../assets/scripts/fetchApi.js';
 
 
-class Info extends React.Component{
+export default class MenuRes extends React.Component{
+    state = {
+        phone:"",
+    }
+    hangePhone = (phone)=>{
+        let phoneArr = phone.match(/\d/g)
+        if(phoneArr){
+            this.setState({phone: phoneArr.join('')})
+        } else {
+            this.setState({phone: ""})
+        }
+        
+    };
+    clear = () => this.setState({phone:""})
 
     render(){
-        const style= LocalStyle();
+        
+        const phoneStore = this.props.store.phone;
+        const phoneChanging = phoneStore.state === phoneStore.TOS.CHANGING;
+        const phone = phoneStore.value;
+        const hangePhone = this.state.phone;
+        const {setNumber} = this.props;
+        const style=LocalStyle(this.props);
         const back = ()=>{this.props.navigation.goBack()}
-        const toMenu = ()=>{this.props.navigation.navigate('Menu')}
         const toScaner = ()=>{this.props.navigation.navigate('Scaner')};
         
         return(
             <View style={style.container}>
-                <TopBar handlers={[back,toMenu]} color = {colors.main}>Информация</TopBar>
+                <TopBar handlers={[back]} color = {colors.main} rightIcon={{style:{display: 'none',}}}>Меню</TopBar>
                 <ScrollView
-                    style={{paddingHorizontal:10}}
+                    style={{paddingHorizontal:10, marginTop: 5,}}
                 >
-                    <NavLinck style={{marginTop:10}} >Что нужно сделать для того что бы участвовать в розыгрыше?</NavLinck>
-                    <NavLinck >Какие призы я могу получить?</NavLinck>
-                    <NavLinck >Как я узнаю, что я победитель?</NavLinck>
-                    <NavLinck >Это единоразовый розыгрыш,или они будут проходить постоянно?</NavLinck>
-                    <NavLinck >Это единоразовый розыгрыш,или они будут проходить постоянно?</NavLinck>
-                    <Text style={style.text}> Остались ещё вопросы?</Text>
+                <Text style={style.text}>Ваш номер телефона</Text>
+                <Phone 
+                        {...{phone,phoneChanging, hangePhone,clear: this.clear}}
+                        onChangeText = {this.hangePhone}  
+                        onPress = {this.state.phone ? setNumber : ()=>{}}
+                />
+                <Сounter {...{phoneChanging,num: phoneStore.qrNum}}/>
+                <Text style={style.text}> Полезная информация</Text>
                     <View style={style.mainQuest} >
                         <NavLinck styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
                             <Text  style={style.shortLinksText1}>Правила</Text> 
@@ -39,27 +62,12 @@ class Info extends React.Component{
                         </NavLinck>
                         
                     </View>
-
                 </ScrollView>
-                <BottomBar onPress = {this.props.store.phone.value? toScaner : toMenu} />
+                <BottomBar onPress={toScaner }/>
             </View>
         )
     }
 }
-
-import { connect } from 'react-redux';
-const mapStateToProps = (store /*, ownProps*/) => {
-  return {
-    store,
-  }
-}
-
-const mapDispatchToProps = {  }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Info)
 
 function Dots(){
     let style = StyleSheet.create({

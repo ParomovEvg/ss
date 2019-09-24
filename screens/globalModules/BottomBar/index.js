@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {StyleSheet,  Text, View, Image } from 'react-native';
 import colors from '../../../assets/colors.js';
 import Button from '../button/button.js';
 import Timer from './timer.js'
 
-export default function(props){
-    let time= new Date(2019,7,15,14,35)
+function BottomBar(props){
+    let time = new Date(2019,9,15,14,35)
     return(
         <View style={style.container}>
             <Image style={style.bgimage}  source={require('./qr.png')} resizeMode = "cover" />
@@ -15,6 +16,19 @@ export default function(props){
         </View>
     )
 }
+
+const mapStateToProps = (store /*, ownProps*/) => {
+    return {
+      store
+    }
+}
+  
+const mapDispatchToProps = {  }
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(BottomBar)
 
 const style = StyleSheet.create({
     container:{
@@ -55,3 +69,4 @@ const style = StyleSheet.create({
     },
  
 })
+

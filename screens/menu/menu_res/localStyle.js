@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import colors from '../../assets/colors.js';
+import colors from '../../../assets/colors.js';
 
 
 export default function(){
@@ -11,10 +11,11 @@ export default function(){
             paddingTop: 20,
         },
         text:{
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: 'bold',
             color: colors.main,
-            marginTop: 15,
+            marginTop: 10,
+            marginBottom:5,
             paddingLeft: 10 ,
         },
         mainQuest:{

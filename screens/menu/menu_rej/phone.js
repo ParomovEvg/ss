@@ -4,13 +4,22 @@ import {
     TouchableOpacity,
     Text,
     View,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from 'react-native'
-import colors from '../../assets/colors.js';
+import colors from '../../../assets/colors.js';
 
 
-export default function Phone  (props) {
+export default function NavLinck  (props) {
+    const {phone, onPress, onChangeText, phoneChanging} = props
     const style = getStyle(props);
+
+    const telConfig = {
+        autoCompleteType: "tel",
+        keyboardType: "numeric",
+    }
+
+
 
     return(
         <View style={style.container}>
@@ -18,13 +27,24 @@ export default function Phone  (props) {
                 style={[style.containerText, props.style]}
             >
                 <View style={style.decor}><View style={style.decorInner}></View></View>
-                {/* <Text style={[style.text, props.styleText]}>{props.children}</Text> */}
-                <TextInput style={style.input} placeholder={"89210723001"}/>
+                {phoneChanging ?
+                <ActivityIndicator /> :
+                <TextInput style={style.input}
+                           onChangeText={onChangeText}
+                           placeholder={"89210723001"}
+                           value = {phone}
+                           {...telConfig}
+                            onEndEditing={
+                                () => {
+                                    onPress(phone)
+                                }
+                            }
+                />}
 
             </View>
-            <TouchableOpacity >
+            <TouchableOpacity onPress= {()=>{onPress(phone)} } >
                 <View style={style.buttonWrap}>
-                    <Text style={style.buttonText}>Изменить</Text>
+                    <Text style={style.buttonText}>Подтвердить</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -38,6 +58,7 @@ function getStyle(props){
     return StyleSheet.create({
         container:{
             justifyContent: 'space-between',
+            // alignItems: 'center',
             flexDirection: 'row',
             marginVertical: 5,
 
@@ -89,17 +110,15 @@ function getStyle(props){
         },
         buttonWrap:{
             borderRadius: 15,
-            borderColor:colors.active,
-            borderWidth:1,
             marginLeft: 10,
             padding: 15,
             flex:1,
             justifyContent: "center",
             alignItems:"center",
-            backgroundColor: "transparent",
+            backgroundColor: colors.main,
         },
         buttonText:{
-            color: colors.active,
+            color: "#fff",
             fontSize:14,
         },
         

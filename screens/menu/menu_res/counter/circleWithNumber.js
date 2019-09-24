@@ -1,9 +1,10 @@
 import React from 'react'
 import Svg, { Circle, Text } from 'react-native-svg';
-import transInterval, {cubeFunc} from '../../../assets/scripts/progfunc.js';
-import colors from '../../../assets/colors.js';
+import transInterval, {cubeFunc} from '../../../../assets/scripts/progfunc.js';
+import colors from '../../../../assets/colors.js';
 
 const SvgComponent = props => (
+  
   <Svg {...props} 
   viewBox="0 0 200 200"
   >

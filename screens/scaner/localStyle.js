@@ -10,5 +10,17 @@ export default function (props){
             backgroundColor: colors.mainBg,
             paddingTop: 20,
         },
+        bgScaner:{
+            
+
+        },
+        topBar:{
+            position: "absolute",
+            left:0,
+            top: 0,
+            paddingTop: 30,
+            paddingBottom: 15,
+        }
+
     })
 }
