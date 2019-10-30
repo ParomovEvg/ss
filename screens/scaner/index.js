@@ -67,11 +67,7 @@ class BarcodeScannerExample extends React.Component {
           <TopBar style={style.topBar} handlers={[this.back, this.toMenu]} color={"#FFF"}> Сканер </TopBar>}
       </View>
     );
-
   }
-
-
-
 }
 
 

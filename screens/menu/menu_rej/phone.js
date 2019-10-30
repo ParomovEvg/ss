@@ -18,9 +18,6 @@ export default function NavLinck  (props) {
         autoCompleteType: "tel",
         keyboardType: "numeric",
     }
-
-
-
     return(
         <View style={style.container}>
             <View
@@ -29,24 +26,23 @@ export default function NavLinck  (props) {
                 <View style={style.decor}><View style={style.decorInner}></View></View>
                 {phoneChanging ?
                 <ActivityIndicator /> :
-                <TextInput style={style.input}
-                           onChangeText={onChangeText}
-                           placeholder={"89210723001"}
-                           value = {phone}
-                           {...telConfig}
-                            onEndEditing={
-                                () => {
-                                    onPress(phone)
+                (<>
+                    <Text style={style.plus}>+7</Text>
+                    <TextInput style={style.input}
+                               onChangeText={onChangeText}
+                               placeholder={""}
+                               value = {phone}
+                               {...telConfig}
+                                onEndEditing={
+                                    () => {
+                                        // onPress(phone)
+                                    }
                                 }
-                            }
-                />}
+                        />
+                </>)}
 
             </View>
-            <TouchableOpacity onPress= {()=>{onPress(phone)} } >
-                <View style={style.buttonWrap}>
-                    <Text style={style.buttonText}>Подтвердить</Text>
-                </View>
-            </TouchableOpacity>
+015
         </View>
 
     )    
@@ -103,10 +99,15 @@ function getStyle(props){
             borderRadius: 3,
             display: props.noDecor ? "none" : undefined,
         },
-        input:{
+        input: {
+            width:"100%",
+            height:25,
+            fontSize:20,
+        },
+        plus:{
             fontSize:20,
             paddingLeft:10,
-    
+            height:25,
         },
         buttonWrap:{
             borderRadius: 15,

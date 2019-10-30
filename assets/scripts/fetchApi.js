@@ -14,11 +14,10 @@ const fetchConfig = data => ({
     body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
 })
 
-const API_URL = "http://a0319139.xsph.ru/?1"
-// const API_URL = "http://192.168.0.1:3000/"
+// const API_URL = "http://a0319139.xsph.ru/?1"
+const API_URL = "http://192.168.0.94:3000/mobile"
 
 function req(data){
-    console.log(data)
     return fetch(API_URL, fetchConfig(data))
     .then(res => res.json())
 }

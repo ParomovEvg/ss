@@ -1,39 +1,49 @@
 import React from 'react';
-import {StyleSheet,ScrollView,  Text, View, Image } from 'react-native';
+import {StyleSheet,ScrollView,  Text, View, Image, Linking } from 'react-native';
 import LocalStyle from './localStyle.js';
 import colors from '../../assets/colors.js';
 import TopBar from '../globalModules/TopBar.js';
 import BottomBar from "../globalModules/BottomBar/index.js"
 import NavLinck from '../globalModules/navlinck.js';
+import openIP from "../../actions/openIP";
+
 
 
 class Info extends React.Component{
 
     render(){
+        console.log(this.props.questions)
         const style= LocalStyle();
         const back = ()=>{this.props.navigation.goBack()}
         const toMenu = ()=>{this.props.navigation.navigate('Menu')}
         const toScaner = ()=>{this.props.navigation.navigate('Scaner')};
-        
+
         return(
             <View style={style.container}>
                 <TopBar handlers={[back,toMenu]} color = {colors.main}>Информация</TopBar>
                 <ScrollView
-                    style={{paddingHorizontal:10}}
+                    style={{paddingHorizontal:10,paddingTop:10}}
                 >
-                    <NavLinck style={{marginTop:10}} >Что нужно сделать для того что бы участвовать в розыгрыше?</NavLinck>
-                    <NavLinck >Какие призы я могу получить?</NavLinck>
-                    <NavLinck >Как я узнаю, что я победитель?</NavLinck>
-                    <NavLinck >Это единоразовый розыгрыш,или они будут проходить постоянно?</NavLinck>
-                    <NavLinck >Это единоразовый розыгрыш,или они будут проходить постоянно?</NavLinck>
+                    {this.props.questions.map((elem, i )=>{
+                        return <NavLinck
+                            key={elem.id}
+                            onPress={()=>{this.props.openIP( {id:elem.id, navigation: this.props.navigation})}}
+                        >{elem.text}</NavLinck>
+                    })}
+
                     <Text style={style.text}> Остались ещё вопросы?</Text>
                     <View style={style.mainQuest} >
-                        <NavLinck styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
+                        <NavLinck
+                            onPress={()=>{this.props.openIP( {id:0, navigation: this.props.navigation})}}
+                            styleText={{width:"90%"}}
+                            style={style.shortLinks}
+                            noDecor={true}
+                        >
                             <Text  style={style.shortLinksText1}>Правила</Text> 
                             {/* <Text  style={style.shortLinksText2}>Подробные</Text> */}
                         </NavLinck>
                         <Dots/>
-                        <NavLinck  styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
+                        <NavLinck onPress={()=>{Linking.openURL("https://vk.com/severservis.narfu")}} styleText={{width:"90%"}} style={style.shortLinks} noDecor={true} >
                             <Text style={style.shortLinksText1}>Задать вопрос</Text> 
                             {/* <Text style={style.shortLinksText2}>Организаторам</Text> */}
                         </NavLinck>
@@ -50,11 +60,12 @@ class Info extends React.Component{
 import { connect } from 'react-redux';
 const mapStateToProps = (store /*, ownProps*/) => {
   return {
-    store,
+      questions: store.generate.info.questions,
+      store,
   }
 }
 
-const mapDispatchToProps = {  }
+const mapDispatchToProps = { openIP }
 
 export default connect(
   mapStateToProps,

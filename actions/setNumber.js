@@ -12,7 +12,7 @@ export default function setNumber(number){
         dispatch(startSetNumber());
         req({
             type: req.type.ADD_PHONE,
-            phone: number,
+            body:{phone: number},
         }).then(
             resolve =>{
                 dispatch({

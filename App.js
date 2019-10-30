@@ -8,7 +8,7 @@ import Thanks from './screens/thanks/index.js';
 import { Provider } from 'react-redux';
 import getStore from './store.js';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-
+import IP from "./screens/information_page.js";
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -25,9 +25,12 @@ const AppNavigator = createStackNavigator({
   },
   Scaner: {
     screen: Scaner,
+  },
+  IP: {
+    screen: IP,
   }
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Menu',
     headerMode:'none'
 });
 

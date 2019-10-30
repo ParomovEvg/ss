@@ -57,6 +57,7 @@ export default function NavLinck  (props) {
     return(
         <TouchableOpacity 
             style={[style.container, props.style]}
+            onPress={props.onPress}
         >
             <View style={style.decor}><View style={style.decorInner}></View></View>
             <Text style={[style.text, props.styleText]}>{props.children}</Text>

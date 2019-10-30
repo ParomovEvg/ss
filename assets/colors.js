@@ -4,5 +4,7 @@ export default {
     active: "#f6b90a",
     black: "#000",
     white: "#fff",  
-    second: "#9c9c9c"  
+    second: "#9c9c9c",
+    text: "#3b3b3b",
+    link: "#4987ff",
 }

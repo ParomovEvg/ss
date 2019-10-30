@@ -5,11 +5,13 @@ import {
     Text,
     View,
   } from 'react-native'
+import PropTypes from 'prop-types'
 
-export default function Button  (props) {
+
+function Button  ({onPress,style,styleText,children}) {
     return(
         <TouchableOpacity 
-        onPress = {props.onPress}
+        onPress = {onPress}
             style={[{
                 width: "100%",
                 justifyContent: 'center',
@@ -17,7 +19,7 @@ export default function Button  (props) {
                 padding: 20,
                 backgroundColor: "#001941",
                 borderRadius: 10,
-            }, props.style]}
+            }, style]}
         >
             <Text 
                 style = {[{
@@ -25,10 +27,19 @@ export default function Button  (props) {
                     fontWeight: 'bold',
                     color: "#fff",    
                     letterSpacing: 1.4,              
-            },props.styleText]}
+            },styleText]}
             >
-                {props.children}
+                {children}
             </Text>
         </TouchableOpacity>
     )    
 }
+
+Button.propTypes = {
+    style: PropTypes.object,
+    styleText:PropTypes.object,
+    children: PropTypes.element.isRequired,
+    onPress:PropTypes.func,
+};
+
+export default Button;
