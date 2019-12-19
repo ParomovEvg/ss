@@ -1,33 +1,23 @@
 import React from 'react';
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Text,
-    View, Animated,
-} from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
+import {Animated, StyleSheet, Text, View} from 'react-native'
 import colors from '../../../assets/colors.js';
 import {useShowAnimation} from "../../../assets/hooks/useShowAnimation";
 
 
-export default function Hint  (props) {
-    const {
-        isShown = true,
-        maxHeight = 120,
-    } = props;
-
+export default function
+    HintError  (props) {
+    const { isError } = props;
+    const aniStyle = useShowAnimation(isError);
     const style = getStyle(props);
-    const aniStyle = useShowAnimation(isShown, maxHeight);
-   
 
     return(
         <Animated.View style={aniStyle}>
-            <TouchableOpacity
+            <View
                 style={[style.container, props.style]}
             >
                 <Text style={[style.text, props.styleText]}>{props.children}</Text>
 
-            </TouchableOpacity>
+            </View>
         </Animated.View>
     )    
 }
@@ -36,7 +26,7 @@ export default function Hint  (props) {
 function getStyle(props){
     return StyleSheet.create({
         container:{
-            backgroundColor: "#fdfdfd",
+            backgroundColor: "#fcd2ca",
             justifyContent: 'space-between',
             alignItems: 'center',
             flexDirection: 'row',
@@ -48,9 +38,10 @@ function getStyle(props){
             borderRadius: 15,
             elevation: 1,
             marginVertical: 5,
+
         },
         text:{
-            color:"#989898",
+            color:"#98261a",
             fontSize: 14,
             fontWeight: "500",
             paddingLeft: 10,

@@ -9,7 +9,7 @@ function startSendQR(){
 
 export default function (phone,xml){
     return function(dispatch){
-        dispatch(startSendQR())
+        dispatch(startSendQR());
         req({
             type: req.type.SEND_QR,
             phone, xml,

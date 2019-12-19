@@ -11,7 +11,7 @@ export default function (state = {}, action) {
         ...state,
         TOS: QR_STATE,
         state: QR_STATE.WAIT,
-      }
+      };
 
     case types.SET_QR_RESOLVED:
       return {
@@ -19,14 +19,14 @@ export default function (state = {}, action) {
         TOS: QR_STATE,
         state: QR_STATE.READY,
         qrNum: action.num,
-      }
+      };
 
     case types.DUMP_QR:
       return {
         ...state,
         TOS: QR_STATE,
         state: QR_STATE.READY,
-      }
+      };
 
     case types.SET_QR_REJECTED:
       

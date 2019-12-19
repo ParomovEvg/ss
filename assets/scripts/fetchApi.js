@@ -1,4 +1,4 @@
-import * as requestTypes from './fetchTypes.js';
+import * as requestTypes from '../../server_constants';
 
 const fetchConfig = data => ({
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -12,17 +12,16 @@ const fetchConfig = data => ({
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
-})
+});
 
-// const API_URL = "http://a0319139.xsph.ru/?1"
-const API_URL = "http://192.168.0.94:3000/mobile"
+const API_URL = "http://a0319139.xsph.ru:4000/api/mobile";
 
 function req(data){
     return fetch(API_URL, fetchConfig(data))
-    .then(res => res.json())
+                    .then(res => res.json())
 }
 
-req.type = requestTypes;
+export {requestTypes}
 
 export default req;
 

@@ -5,63 +5,45 @@ const bgImage = require("./img/bg.jpg");
 import LocalStyle from './locStyle.js';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../globalModules/button/button.js';
-import { connect } from 'react-redux';
+import { useSelector} from 'react-redux';
 
 
 
-class Hello extends React.Component{
-    // constructor(props){
-    //     super(props)
-    //     this.props = props
-    // }
+function Hello(props){
 
+    const phone = useSelector(store => store.phone);
+    let hello_text = useSelector( store => store.text.Hello);
 
-    render(){
-        const style = LocalStyle();
-        const toInfo = ()=>{this.props.navigation.navigate('Info')};
-        const toMenu = ()=>{this.props.navigation.navigate('Menu')};
-        const toScaner = ()=>{this.props.navigation.navigate('Scaner')};
+    const style = LocalStyle();
+    const toInfo = () => {props.navigation.navigate('Info')};
+    const toMenu = () => {props.navigation.navigate('Menu')};
+    const toScaner = () => {props.navigation.navigate('Scaner')};
 
-        return(
-            <ViewBg source = {bgImage}>
-                <View style={style.topBar}>
-                    <View>
-                        <Image resizeMode = "contain" style={style.logo} source = {require("./img/logo.png")}/>
-                    </View>
-                    <TouchableOpacity  onPress={toMenu} >
-                        <Ionicons  name="ios-menu" size={32} color="#fff" />
-                    </TouchableOpacity>
+    return(
+        <ViewBg source = {{uri:hello_text.bg_url}}>
+            <View style={style.topBar}>
+                <View>
+                    <Image resizeMode = "contain" style={style.logo} source = {{uri:hello_text.logo_url}}/>
                 </View>
-                <View style={style.headBox}>
-                   
-                     <Text style={style.headText}>Сканируй  </Text> 
-                     <Text style={style.headText}>QR код  </Text>
-                     <Text style={style.headText}>И выигрывай  </Text>
-                     <Text style={style.headText}>Смартфон </Text>
-                   
-                </View>
-                <View style={style.buttonBox}>
-                    <Button 
-                        onPress={ this.props.store.phone.value ? toScaner : toMenu }
-                    > Сканировать </Button>
-                    <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
-                </View>
-            </ViewBg>        
-        )
-    }
+                <TouchableOpacity  onPress={toMenu} >
+                    <Ionicons  name="ios-menu" size={32} color="#fff" />
+                </TouchableOpacity>
+            </View>
+            <View style={style.headBox}>
+                {hello_text.main_text.split(":").map(text => (
+                    <Text style={style.headText}>{text} </Text>
+                ))}
+
+            </View>
+            <View style={style.buttonBox}>
+                <Button
+                    onPress={ phone ? toScaner : toMenu }
+                > Сканировать </Button>
+                <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
+            </View>
+        </ViewBg>
+    )
 }
 
 
-
-const mapStateToProps = (store /*, ownProps*/) => {
-    return {
-      store
-    }
-}
-  
-const mapDispatchToProps = {  }
-  
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Hello)
+export default Hello;

@@ -3,7 +3,6 @@ import { QR_STATE } from './typeOfState.js';
 import cloneDeep from 'clone-deep'
 
 import { GenConstants } from "../screens/toGeneration/Generate";
-import { SET_IP } from "../actions/types";
 
 const defaultGenerate = {
      info: {

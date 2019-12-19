@@ -3,41 +3,88 @@ import rootReducer from './reducer/main.js';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as SecureStore from 'expo-secure-store';
-import { PHONE_STATE, QR_STATE } from './reducer/typeOfState.js';
 import fetchApi from './assets/scripts/fetchApi.js';
-import { ADD_PHONE } from './assets/scripts/fetchTypes.js';
+import {requestTypes} from "./assets/scripts/fetchApi";
 
+export class StoreGetter{
 
-async function store() {
-    const phone = await SecureStore.getItemAsync("Error");
-    let qrNum
-    if (phone) {
-        qrNum = await fetchApi({
-            type: ADD_PHONE,
-            phone
+    default_store ={
+        isInternet: true,
+        loading: false,
+        qrNum: 0,
+        infoId: 0,
+        phone: undefined,
+        token: undefined,
+        text: undefined,
+    };
+
+    async getStore(){
+        try{
+            let [phone, token, text] = await Promise.all([
+                this.getPhone(),
+                this.getToken(),
+                this.getText()
+            ]);
+
+            text = JSON.parse(text)[0].text;
+            text = JSON.parse(text);
+            const qrNum = phone && token ? await this.getQrNum() : 0;
+            console.log({
+                phone,
+                token,
+                qrNum,
+                text
+            });
+
+            const default_store ={
+                ...(this.default_store),
+                phone,
+                token,
+                qrNum,
+                text
+            };
+
+            return createStore(rootReducer, default_store,
+                composeWithDevTools(
+                    applyMiddleware(thunk)
+                )
+            );
+        } catch (e) {
+            const default_store ={
+                ...(this.default_store),
+                isInternet: false,
+
+            };
+
+            return createStore(rootReducer, default_store,
+                composeWithDevTools(
+                    applyMiddleware(thunk)
+                )
+            );
+        }
+    }
+
+     async getPhone(){
+        return SecureStore.getItemAsync("phone");
+    }
+
+    async getToken(){
+        return SecureStore.getItemAsync("token");
+    }
+
+    async getQrNum(token, phone){
+        return await fetchApi({
+            type:requestTypes.QR.NUM_BY_PHONE,
+            data:{
+                token,
+                phone,
+            },
         })
-    } else {
-        qrNum = "0"
     }
 
-    let default_store = {
-        phone: {
-            TOS: PHONE_STATE,
-            value: phone ? phone : "",
-            state: phone ? PHONE_STATE.IS : PHONE_STATE.IS_NOT,
-            qrNum: qrNum.qrNum,
-        },
-        qr: {
-            TOS: QR_STATE,
-            state: QR_STATE.READY,
-        },
+    async getText(){
+        return await fetchApi({
+            type: requestTypes.INIT.LAST_UPDATE
+        })
     }
-
-    return createStore(rootReducer, default_store,
-        composeWithDevTools(
-            applyMiddleware(thunk)
-        )
-    );
 }
-
-export default store;

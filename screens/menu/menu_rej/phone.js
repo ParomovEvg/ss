@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -8,46 +8,76 @@ import {
     ActivityIndicator
 } from 'react-native'
 import colors from '../../../assets/colors.js';
+import HintError from "./hintError";
+import {useSelector} from "react-redux";
 
 
-export default function NavLinck  (props) {
-    const {phone, onPress, onChangeText, phoneChanging} = props
+export default function PhoneField  (props) {
+    const {loading, setPhone} = props;
     const style = getStyle(props);
+
+    const phone = useSelector(state => state.phone);
+    const [error, setError] = useState("");
+    const [lphone, setLPhone] = useState(phone ? phone : "");
+
+    const changeTimer = useRef(0);
+    const handlePhoneChange = useCallback((phone)=>{
+        setLPhone(phone);
+        changeTimer.current && clearTimeout(changeTimer.current);
+        changeTimer.current = setTimeout(()=>{
+            if(!phone){
+                setError("")
+                setPhone("")
+            } else if(phone.length !== 10){
+                setPhone("")
+                setError("Неверный формат номера телефона")
+            } else if(isNaN(phone + 1)){
+                setPhone("")
+                setError("Номер телефона может содержать только цифры")
+            } else {
+                setPhone(phone)
+                setError("")
+            }
+        }, 500)
+    },[]);
 
     const telConfig = {
         autoCompleteType: "tel",
         keyboardType: "numeric",
-    }
-    return(
-        <View style={style.container}>
-            <View
-                style={[style.containerText, props.style]}
-            >
-                <View style={style.decor}><View style={style.decorInner}></View></View>
-                {phoneChanging ?
-                <ActivityIndicator /> :
-                (<>
-                    <Text style={style.plus}>+7</Text>
-                    <TextInput style={style.input}
-                               onChangeText={onChangeText}
-                               placeholder={""}
-                               value = {phone}
-                               {...telConfig}
-                                onEndEditing={
-                                    () => {
-                                        // onPress(phone)
+    };
+    return (
+        <>
+            <View style={style.container}>
+                <View
+                    style={[style.containerText, props.style]}
+                >
+                    <View style={style.decor}><View style={style.decorInner}></View></View>
+                    {loading ?
+                    <ActivityIndicator /> :
+                    (<>
+                        <Text style={style.plus}>+7</Text>
+                        <TextInput style={style.input}
+                                   onChangeText={handlePhoneChange}
+                                   placeholder={""}
+                                   value = {lphone}
+                                   {...telConfig}
+                                    onEndEditing={
+                                        () => {
+                                            // onPress(phone)
+                                        }
                                     }
-                                }
-                        />
-                </>)}
+                            />
+                    </>)}
 
+                </View>
             </View>
-015
-        </View>
+            <HintError isError={Boolean(error)}>
+                {error}
+            </HintError>
+        </>
 
-    )    
+    )
 }
-
 
 
 function getStyle(props){
@@ -125,4 +155,4 @@ function getStyle(props){
         
 
     })
-}
+};

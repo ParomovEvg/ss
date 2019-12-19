@@ -21,7 +21,7 @@ function timeFunc(x){
 
 let cubeFunc = (x, xRange, yRange)=>{
     return main(x,xRange,yRange, timeFunc);
-}
+};
 
 // console.log(cubeFunc(20,400,500));
 export {cubeFunc}
