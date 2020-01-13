@@ -13,13 +13,7 @@ import colors from '../../../assets/colors.js';
 
 export default function Phone(props) {
     const style = getStyle(props);
-    const { phone, onPress, onChangeText, phoneChanging, hangePhone, clear } = props
-
-    const telConfig = {
-        autoCompleteType: "tel",
-        keyboardType: "numeric",
-    }
-
+    const { phone, onPress } = props;
 
     return (
         <View style={style.container}>
@@ -28,28 +22,28 @@ export default function Phone(props) {
             >
                 <View style={style.decor}><View style={style.decorInner}></View></View>
                 {/* <Text style={[style.text, props.styleText]}>{props.children}</Text> */}
-                {phoneChanging ?
-                    <ActivityIndicator /> :
-                    <TextInput style={style.input}
-                        onChangeText={onChangeText}
-                        placeholder={phone}
-                        value={hangePhone}
-                        maxLength={11}
-                        {...telConfig}
-                        onEndEditing={
-                            () => {
-                                onPress(hangePhone)
-                                clear()
-                            }
-                        }
-                        
-                    />}
+                {
+                    <Text style={style.input}>{phone}</Text>
+                    // <TextInput style={style.input}
+                    //     onChangeText={onChangeText}
+                    //     placeholder={phone}
+                    //     value={hangePhone}
+                    //     maxLength={11}
+                    //     {...telConfig}
+                    //     onEndEditing={
+                    //         () => {
+                    //             onPress(hangePhone)
+                    //             clear()
+                    //         }
+                    //     }
+                    //
+                    // />
+                }
 
 
             </View>
             <TouchableOpacity onPress={() => {
-                onPress(hangePhone)
-                clear()
+                onPress(()=>{});
             }} >
                 <View style={style.buttonWrap}>
                     <Text style={style.buttonText}>Изменить</Text>

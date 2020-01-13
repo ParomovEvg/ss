@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useEffect, useRef, Fragment} from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -11,29 +11,43 @@ import {
 import colors from '../../../assets/colors.js';
 
 import HintError from "./hintError";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Button from "../../globalModules/button/button";
 import {useShowAnimation} from "../../../assets/hooks/useShowAnimation";
+import {useAddPassword} from "../../../assets/hooks/useAddPassword";
+import {useSendPassword} from "../../../assets/hooks/useSendPassword";
+import {useTimerAddPassword} from "../../../assets/hooks/useTimerAddPassword";
 
 
 export default function Password  (props) {
     const style = getStyle(props);
-    const {isShown = true, maxHeight= 200} = props;
-    const [loading, setLoading] = useState(false);
-    const [password, setPassword] = useState("");
-    const aniStyle = useShowAnimation(isShown, maxHeight);
+
+    const {
+        isShown = true,
+        maxHeight = 300,
+        phone,
+    } = props;
+
     const aniView = useRef(null);
-    console.log(aniView.current);
+    const aniStyle = useShowAnimation(isShown, maxHeight);
+    const [timer] = useTimerAddPassword();
+    const [password, setPassword] = useState("");
+    const [sendPasswordLoading, sendPassword] = useSendPassword({ onError:(str)=>{
+        setError(str);
+    }});
+    const [addPasswordLoading, addPassword ] = useAddPassword();
+    const canSendPassword = password.length === 6;
+    const [error, setError] = useState("");
 
     return (
-        <Animated.View ref={aniView} style={aniStyle}>
+        <Animated.View ref={aniView} style={[aniStyle, {paddingHorizontal:10}]}>
             <Text style={style.textHead}>Введите пароль из SMS</Text>
             <View style={style.container}>
                 <View
                     style={[style.containerText, props.style]}
                 >
                     {/*<View style={style.decor}><View style={style.decorInner}></View></View>*/}
-                    {loading ?
+                    {sendPasswordLoading ?
                     <ActivityIndicator /> :
                     (<>
                         <TextInput
@@ -42,30 +56,51 @@ export default function Password  (props) {
                             placeholder={""}
                             value = {password}
                             onEndEditing={
-                            () => {
-                            // onPress(phone)
-                            }
+                                () => {
+                                // onPress(phone)
+                                }
                             }
                         />
                     </>)}
 
                 </View>
             </View>
-            <View style={style.buttonGroup}>
-                <TouchableOpacity style={{width:"49%"}} onPress={() => {
-                }} >
-                    <View style={style.buttonWrap}>
-                        <Text style={style.buttonText}>Войти</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={{width:"49%"}} onPress={() => {
-
-                }} >
-                    <View style={style.buttonWrapSecond}>
-                        <Text style={style.buttonTextSecond}>Отправить SMS</Text>
-                    </View>
-                </TouchableOpacity>
+            <HintError isError={Boolean(error)}>
+                {error}
+            </HintError>
+            <View>
+                <View style={style.buttonsGroup}>
+                    <TouchableOpacity onPress={() => {
+                        if(!canSendPassword){
+                            setError("Неверный пароль")
+                        } else {
+                            sendPassword(phone,password);
+                        }
+                    }} >
+                        <View style={style.buttonWrap}>
+                            <Text style={style.buttonText}>Войти</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        if(timer === 0){
+                            addPassword(phone);
+                        }
+                    }} >
+                        <View style={style.buttonWrapSecond}>
+                            {
+                            addPasswordLoading ?
+                                (<ActivityIndicator />) :
+                                <Text style={style.buttonTextSecond}>{
+                                    timer > 0 ?
+                                        (`До повторной отправки ${String(Math.floor(timer / 60)).padStart(2,'0')}:${String(timer % 60).padStart(2)} секунд`) :
+                                        ("Получить новый пароль по SMS")
+                                } </Text>
+                            }
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
+
         </Animated.View>
 
     )
@@ -80,12 +115,6 @@ function getStyle(props){
             color: colors.main,
             marginTop: 15,
             paddingLeft: 10 ,
-        },
-        buttonGroup:{
-            flexDirection:"row",
-            marginTop: 15,
-            width:"100%",
-            justifyContent: 'space-between',
         },
         container:{
             justifyContent: 'space-between',
@@ -145,6 +174,7 @@ function getStyle(props){
             height:25,
         },
         buttonWrap:{
+            marginTop: 25,
             borderRadius: 15,
             padding: 15,
             width:"100%",
@@ -157,21 +187,22 @@ function getStyle(props){
             fontSize:14,
         },
         buttonWrapSecond: {
+            marginTop:10,
             borderRadius: 15,
-            borderColor: colors.active,
+            borderColor: colors.main,
             borderWidth: 1,
-            marginLeft: 10,
             padding: 15,
-            flex: 1,
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "transparent",
         },
         buttonTextSecond: {
-            color: colors.active,
+            color: colors.main,
             fontSize: 14,
         },
-        
+        buttonsGroup:{
+            width: "100%"
+        },
 
     })
 };

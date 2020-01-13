@@ -6,15 +6,18 @@ import MenuREJ from './menu_rej/index.js'
 import setNumber  from '../../actions/setNumber.js';
 
 
+
 function Menu(props){
 
 
     const token = useSelector(state => state.token);
+    const changingPassword = useSelector(state => state.changingPassword);
 
   return (
-      token ?
-    <MenuRES {...props}/> : 
-    <MenuREJ {...props}/>
+      !token || changingPassword ?
+          <MenuREJ {...props}/> :
+          <MenuRES {...props}/>
+
   )
 }
 

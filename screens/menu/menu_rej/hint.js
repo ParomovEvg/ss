@@ -21,7 +21,8 @@ export default function Hint  (props) {
    
 
     return(
-        <Animated.View style={aniStyle}>
+        <Animated.View style={[aniStyle, {paddingHorizontal:10,
+        }]}>
             <TouchableOpacity
                 style={[style.container, props.style]}
             >

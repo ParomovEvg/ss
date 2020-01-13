@@ -5,11 +5,12 @@ import {
     Text,
     View,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    Keyboard
 } from 'react-native'
 import colors from '../../../assets/colors.js';
 import HintError from "./hintError";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
 export default function PhoneField  (props) {
@@ -35,11 +36,14 @@ export default function PhoneField  (props) {
                 setPhone("")
                 setError("Номер телефона может содержать только цифры")
             } else {
-                setPhone(phone)
+                setPhone(phone);
+                Keyboard.dismiss();
                 setError("")
             }
         }, 500)
     },[]);
+
+
 
     const telConfig = {
         autoCompleteType: "tel",
@@ -70,10 +74,14 @@ export default function PhoneField  (props) {
                     </>)}
 
                 </View>
+
             </View>
-            <HintError isError={Boolean(error)}>
-                {error}
-            </HintError>
+            <View style ={{paddingHorizontal: 10}}>
+                <HintError isError={Boolean(error)}>
+                    {error}
+                </HintError>
+            </View>
+
         </>
 
     )
@@ -83,6 +91,7 @@ export default function PhoneField  (props) {
 function getStyle(props){
     return StyleSheet.create({
         container:{
+            paddingHorizontal: 10,
             justifyContent: 'space-between',
             // alignItems: 'center',
             flexDirection: 'row',

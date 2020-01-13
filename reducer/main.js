@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 // import ui from './ui.js';
-import * as actionTypes from '../actions/types'
 import cloneDeep from "clone-deep";
+import * as reducerTypes from "../actions/types"
+export {reducerTypes}
 
 
 const todoApp =  (state, action) => {
-  if( actionTypes[action.type] ){
+  if( reducerTypes[action.type] ){
       const newState = cloneDeep(state);
-      const valueToChange = actionTypes[action.type];
-      newState[valueToChange] = action.value;
+      newState[action.type] = action.value;
+      console.log(action,newState)
       return  newState
   } else {
       return state

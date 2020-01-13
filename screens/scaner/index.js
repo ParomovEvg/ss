@@ -1,54 +1,68 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React, {useEffect,useState,useCallback} from 'react';
+import {Text, View, StyleSheet, Button, ActivityIndicator} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import TopBar from '../globalModules/TopBar';
 import Frame from './frame_svg.js';
 import getStyle from './localStyle.js'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import ErrorQr from "./ErrorQr.js"
+import {useSendQr} from "../../assets/hooks/useSendQr";
+
+function Scanner(props) {
+
+    const toThanks = () => { props.navigation.navigate('Thanks') };
+    const toMenu = () => { props.navigation.navigate('Menu') };
+    const back = () => { props.navigation.goBack() };
+
+    const [error, setError] = useState(null);
+    const [isLoading,sendQr] = useSendQr({
+        onEnd: (res) => {
+            toThanks();
+        },
+        onError: (e) => {
+            setError(e);
+        }
+    });
+    const handleBarCodeScanned = useCallback(({ type, data }) => {
+
+        console.log(data)
+        if(!isLoading && !error){
+            sendQr(data);
+        }
+    },[isLoading, error]) ;
 
 
-class BarcodeScannerExample extends React.Component {
-  state = {
-    hasCameraPermission: null,
-  };
 
-  async componentDidMount() {
-    this.getPermissionsAsync();
-  }
 
-  shouldComponentUpdate(nextProps, nextState){
-    if(this.props.wait && nextProps.ready){
-      this.toThanks()
-      this.props.qrDump();
-      return true;
-    } else return true;
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    useEffect(()=>{
+        (async () => {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA);
+            setHasCameraPermission(status === 'granted')
+        })();
+    },[]);
 
-  }
-  
-  getPermissionsAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  };
-
-  handleBarCodeScanned = ({ type, data }) => {
-    this.props.sendQR(this.props.phone, data);
-  };
-
-  toThanks = () => { this.props.navigation.navigate('Thanks') };
-  toMenu = () => { this.props.navigation.navigate('Menu') };
-  back = () => { this.props.navigation.goBack() }
-
-  render() {
-    const { hasCameraPermission } = this.state;
-    const style = getStyle(this.props);
-    const { ready, ...props } = this.props;
+    const style = getStyle(props);
 
     if (hasCameraPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+      return (
+          <View style={{          flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',}}>
+                  <ActivityIndicator size="large"  />
+                  <Text >Requesting for camera permission</Text>
+          </View>
+      )
     }
     if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
+      return (
+          <View style={{          flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',}}>
+                  <ActivityIndicator size="large"  />
+                  <Text>No access to camera</Text>
+          </View>
+      );
     }
 
     return (
@@ -59,41 +73,16 @@ class BarcodeScannerExample extends React.Component {
           alignItems: 'center',
         }}>
         <BarCodeScanner
-          onBarCodeScanned={ready ? this.handleBarCodeScanned : undefined}
+          onBarCodeScanned={handleBarCodeScanned}
           style={StyleSheet.absoluteFill}
         />
-        {ready ? <Frame /> : <ErrorQr {...props} />}
-        {props.wait ? undefined :
-          <TopBar style={style.topBar} handlers={[this.back, this.toMenu]} color={"#FFF"}> Сканер </TopBar>}
+        {!error && !isLoading ? <Frame /> : <ErrorQr dumpError={() => setError(null)} isLoadign={isLoading} error={error} />}
+        {isLoading ? undefined :
+          <TopBar style={style.topBar} handlers={[back, toMenu]} color={"#FFF"}> Сканер </TopBar>}
       </View>
     );
-  }
 }
 
 
 
-
-import { connect } from 'react-redux';
-const mapStateToProps = (store) => {
-  return {
-    phone: store.phone.value,
-    reqState: store.qr.state,
-    TOS: store.qr.TOS,
-    ready: store.qr.state === store.qr.TOS.READY,
-    wait: store.qr.state === store.qr.TOS.WAIT,
-    bad: store.qr.state === store.qr.TOS.BAD_QR,
-    wrangCheckout: store.qr.state === store.qr.TOS.WRONG_CHECKOUT,
-    already: store.qr.state === store.qr.TOS.QR_ALREADY_IS,
-  }
-}
-
-import sendQR from '../../actions/sendQR.js';
-import qrDump from '../../actions/qrDump.js';
-
-
-const mapDispatchToProps = { sendQR, qrDump }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BarcodeScannerExample)
+export default Scanner

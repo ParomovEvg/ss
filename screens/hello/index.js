@@ -17,7 +17,7 @@ function Hello(props){
     const style = LocalStyle();
     const toInfo = () => {props.navigation.navigate('Info')};
     const toMenu = () => {props.navigation.navigate('Menu')};
-    const toScaner = () => {props.navigation.navigate('Scaner')};
+    const toScaner = () => {props.navigation.navigate('Scanner')};
 
     return(
         <ViewBg source = {{uri:hello_text.bg_url}}>

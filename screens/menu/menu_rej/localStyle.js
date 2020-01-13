@@ -15,7 +15,7 @@ export default function(){
             fontWeight: 'bold',
             color: colors.main,
             marginTop: 15,
-            paddingLeft: 10 ,
+            paddingLeft: 20 ,
         },
         mainQuest:{
             flexDirection: 'row',

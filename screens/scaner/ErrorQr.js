@@ -2,32 +2,30 @@ import * as React from 'react';
 import colors from '../../assets/colors.js'
 import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import Button from '../globalModules/button/button.js'
-export default function ({wait,wrangCheckout,already,bad,qrDump}) {
-    const s = getStyle()
+export default function ({error, isLoading, dumpError}) {
+    const s = getStyle();
 
     return (
         <View style={s.wrapper}>
-            <View></View>
             <View style={s.center}>
-                {wait ? <ActivityIndicator size="large" color="#fff" /> :
+                {isLoading ? <ActivityIndicator size="large" color="#fff" /> :
                 <Text style={s.text}>
                 {
-                wrangCheckout ? "В акции принимают участие только чеки из столовых в корпусах САФУ":
-                already ? "Этот чек уже был зарегистрирован" :
-                bad ? "Этот QR не действителен, Пожалуйста отсканируйте QR код на кассовом чеке" : "Неизвестная ошибка"
+                    error
                 }
                 </Text>}
-                
             </View>
             <View>
-                {wait ? undefined :
+                {
+                    isLoading ? undefined :
                     <Button
-                    onPress={qrDump}
+                        onPress={dumpError}
                         style={s.button}
                         styleText={{ color: "#001941" }}
                     >
                         Сканировать снова
-                </Button>}
+                    </Button>
+                }
             </View>
         </View>
     )

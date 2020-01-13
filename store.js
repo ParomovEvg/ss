@@ -1,14 +1,16 @@
 import { createStore, applyMiddleware } from 'redux';
-import rootReducer from './reducer/main.js';
+import rootReducer, {reducerTypes} from './reducer/main';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as SecureStore from 'expo-secure-store';
 import fetchApi from './assets/scripts/fetchApi.js';
 import {requestTypes} from "./assets/scripts/fetchApi";
 
+
+
 export class StoreGetter{
 
-    default_store ={
+    default_store = {
         isInternet: true,
         loading: false,
         qrNum: 0,
@@ -16,6 +18,8 @@ export class StoreGetter{
         phone: undefined,
         token: undefined,
         text: undefined,
+        addPasswordTimer: 0,
+        changingPassword: false,
     };
 
     async getStore(){
@@ -28,7 +32,7 @@ export class StoreGetter{
 
             text = JSON.parse(text)[0].text;
             text = JSON.parse(text);
-            const qrNum = phone && token ? await this.getQrNum() : 0;
+            const qrNum = phone && token ? await this.getQrNum(token, phone) : 0;
             console.log({
                 phone,
                 token,
@@ -65,17 +69,17 @@ export class StoreGetter{
     }
 
      async getPhone(){
-        return SecureStore.getItemAsync("phone");
+        return SecureStore.getItemAsync(reducerTypes.phone);
     }
 
     async getToken(){
-        return SecureStore.getItemAsync("token");
+        return SecureStore.getItemAsync(reducerTypes.token);
     }
 
     async getQrNum(token, phone){
         return await fetchApi({
             type:requestTypes.QR.NUM_BY_PHONE,
-            data:{
+            body:{
                 token,
                 phone,
             },

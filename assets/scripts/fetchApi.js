@@ -18,7 +18,8 @@ const API_URL = "http://a0319139.xsph.ru:4000/api/mobile";
 
 function req(data){
     return fetch(API_URL, fetchConfig(data))
-                    .then(res => res.json())
+                    .then(res => {
+                        return {...res.json(), _status: res.status}})
 }
 
 export {requestTypes}

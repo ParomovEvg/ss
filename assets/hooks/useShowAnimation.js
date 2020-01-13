@@ -1,13 +1,13 @@
 import {useEffect, useRef} from "react";
-import {Animated} from "react-native";
+import {Animated, ScrollView} from "react-native";
 
 export function useShowAnimation(isShown, maxHeight = 60) {
     const aniValue = useRef({
         maxHeight: new Animated.Value(isShown ? maxHeight : 0),
         opacity: new Animated.Value(isShown ? 1 : 0),
         overflow: "hidden",
-        display: "block"
-    });
+        display: "block",
+});
     const animationObj = useRef({
         stop() {
         }

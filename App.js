@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
-import Info from './screens/info/index.js';
 import Hello from './screens/hello/index.js';
 import Menu from './screens/menu/index.js';
-import Scaner from './screens/scaner/index.js';
-import Thanks from './screens/thanks/index.js';
 import { Provider } from 'react-redux';
-import getStore from './store.js';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import IP from "./screens/information_page.js";
 import {StoreGetter} from "./store";
+import Scanner from "./screens/scaner";
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -24,14 +20,14 @@ const AppNavigator = createStackNavigator({
   Menu: {
     screen: Menu,
   },
-  // Scaner: {
-  //   screen: Scaner,
-  // },
+  Scanner: {
+    screen: Scanner,
+  },
   // IP: {
   //   screen: IP,
   // }
 }, {
-    initialRouteName: 'Menu',
+    initialRouteName: 'Home',
     headerMode:'none'
 });
 
@@ -57,9 +53,13 @@ export default function App (props){
     },[]);
 
     if(!isInternet){
-        return(<View style={{justifyContent:'center', alignItems:'center', flex:1}}><Text>
-            Нема интернета
-        </Text></View>)
+        return(
+            <Provider store={store}>
+                <View style={{justifyContent:'center', alignItems:'center', flex:1}}><Text>
+                    Нема интернета
+                </Text></View>
+            </Provider>
+        )
     }
 
     if(store){
