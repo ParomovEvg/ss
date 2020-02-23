@@ -17,8 +17,8 @@ export default function setNumber(number){
             resolve =>{
                 dispatch({
                     type: types.SET_PHONE_RESOLVED,
-                    phone: resolve.phone,
-                    qrNum: resolve.qrNum,
+                    phone: resolve.data.phone,
+                    qrNum: resolve.data.qrNum,
                 })
             },
             reject =>{
@@ -27,6 +27,6 @@ export default function setNumber(number){
                     type: types.SET_PHONE_REJECTED,
                 })
             }
-        )  
+        )
     }
 }

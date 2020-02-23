@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { connect } from 'react-redux';
 import {StyleSheet,  Text, View, Image } from 'react-native';
 import colors from '../../../assets/colors.js';
 import Button from '../button/button.js';
 import Timer from './timer.js'
 
+
 function BottomBar(props){
-    let time = new Date(2019,9,15,14,35)
+    let time = new Date(2019,9,15,14,35);
+
     return(
         <View style={style.container}>
             <Image style={style.bgimage}  source={require('./qr.png')} resizeMode = "cover" />
@@ -22,9 +24,9 @@ const mapStateToProps = (store /*, ownProps*/) => {
       store
     }
 }
-  
+
 const mapDispatchToProps = {  }
-  
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
@@ -55,7 +57,7 @@ const style = StyleSheet.create({
         width: "100%",
         height: undefined,
         aspectRatio: 750 / 167,
-        
+
     },
     button:{
         backgroundColor: 'transparent',
@@ -67,6 +69,6 @@ const style = StyleSheet.create({
         marginTop: "auto",
         marginBottom: 20,
     },
- 
+
 })
 

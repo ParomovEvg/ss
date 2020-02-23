@@ -15,7 +15,6 @@ export const useAddPassword = (onEnd = () => {}) => {
         if(timer > 0){
             return false;
         }
-
         setIsLoading(true);
         req({
             type: AUTH.ADD_PASS,

@@ -10,7 +10,7 @@ const Generate = {
     'Paragraph': P,
     'Img':ImageAdd,
     'Anchor':Anchor,
-}
+};
 
 export const GenConstants = {
     'Head1':'Head1',
@@ -18,6 +18,6 @@ export const GenConstants = {
     'Paragraph': 'Paragraph',
     'Img':'Img',
     'Anchor':'Anchor',
-}
+};
 
 export default Generate

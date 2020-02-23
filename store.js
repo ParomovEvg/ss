@@ -30,20 +30,13 @@ export class StoreGetter{
                 this.getText()
             ]);
 
-            text = JSON.parse(text)[0].text;
-            text = JSON.parse(text);
-            const qrNum = phone && token ? await this.getQrNum(token, phone) : 0;
-            console.log({
-                phone,
-                token,
-                qrNum,
-                text
-            });
+            const qrNum = (phone && token) ? await this.getQrNum(token, phone) : 0;
+
 
             const default_store ={
                 ...(this.default_store),
-                phone,
-                token,
+                phone: 0,
+                token: 0,
                 qrNum,
                 text
             };
@@ -54,6 +47,7 @@ export class StoreGetter{
                 )
             );
         } catch (e) {
+            console.error(e);
             const default_store ={
                 ...(this.default_store),
                 isInternet: false,
@@ -83,12 +77,12 @@ export class StoreGetter{
                 token,
                 phone,
             },
-        })
+        }).then(res => res.data)
     }
 
     async getText(){
         return await fetchApi({
             type: requestTypes.INIT.LAST_UPDATE
-        })
+        }).then(res => res.data)
     }
 }

@@ -7,50 +7,40 @@ import getStyle from './localStyle.js'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import ErrorQr from "./ErrorQr.js"
 import {useSendQr} from "../../assets/hooks/useSendQr";
+import {useEffectOnChange} from "../../assets/hooks/useEffectOnChange";
+import { useCameraPermission } from './useCameraPermission';
 
 function Scanner(props) {
-
+    const style = getStyle(props);
     const toThanks = () => { props.navigation.navigate('Thanks') };
     const toMenu = () => { props.navigation.navigate('Menu') };
     const back = () => { props.navigation.goBack() };
 
-    const [error, setError] = useState(null);
-    const [isLoading,sendQr] = useSendQr({
-        onEnd: (res) => {
+    const [data, setData] = useState(null);
+    const qr = useSendQr();
+    useEffectOnChange(()=>{
+        if(!qr.res && !qr.isLoading && !qr.error && data){
+            qr.sendQr(data + "&fd=123");
+            setData(null);
+        }
+    }, [data]);
+
+    useEffectOnChange(()=>{
+        if(qr.res){
             toThanks();
-        },
-        onError: (e) => {
-            setError(e);
+            qr.dumpQr();
         }
-    });
-    const handleBarCodeScanned = useCallback(({ type, data }) => {
-
-        console.log(data)
-        if(!isLoading && !error){
-            sendQr(data);
-        }
-    },[isLoading, error]) ;
+    }, [qr.res, qr.isLoading]);
 
 
-
-
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
-    useEffect(()=>{
-        (async () => {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA);
-            setHasCameraPermission(status === 'granted')
-        })();
-    },[]);
-
-    const style = getStyle(props);
-
+    const hasCameraPermission = useCameraPermission();
     if (hasCameraPermission === null) {
       return (
           <View style={{          flex: 1,
               justifyContent: 'center',
               alignItems: 'center',}}>
                   <ActivityIndicator size="large"  />
-                  <Text >Requesting for camera permission</Text>
+                  <Text >Ожидание разрешения доступа к камере</Text>
           </View>
       )
     }
@@ -60,10 +50,14 @@ function Scanner(props) {
               justifyContent: 'center',
               alignItems: 'center',}}>
                   <ActivityIndicator size="large"  />
-                  <Text>No access to camera</Text>
+                  <Text>Нет доступа к камере</Text>
           </View>
       );
     }
+
+    const handleBarCodeScanned = ({ type, data }) => {
+        setData(data);
+    };
 
     return (
       <View
@@ -76,8 +70,14 @@ function Scanner(props) {
           onBarCodeScanned={handleBarCodeScanned}
           style={StyleSheet.absoluteFill}
         />
-        {!error && !isLoading ? <Frame /> : <ErrorQr dumpError={() => setError(null)} isLoadign={isLoading} error={error} />}
-        {isLoading ? undefined :
+        {!qr.isLoading && !qr.error && !qr.res ?
+            (
+                <Frame />
+            ) : (
+                <ErrorQr qr={qr}/>
+            )
+        }
+        {qr.isLoading ? undefined :
           <TopBar style={style.topBar} handlers={[back, toMenu]} color={"#FFF"}> Сканер </TopBar>}
       </View>
     );

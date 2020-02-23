@@ -2,7 +2,7 @@ import * as React from 'react';
 import colors from '../../assets/colors.js'
 import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import Button from '../globalModules/button/button.js'
-export default function ({error, isLoading, dumpError}) {
+export default function ({qr:{error, dumpQr, isLoading}}) {
     const s = getStyle();
 
     return (
@@ -19,7 +19,7 @@ export default function ({error, isLoading, dumpError}) {
                 {
                     isLoading ? undefined :
                     <Button
-                        onPress={dumpError}
+                        onPress={dumpQr}
                         style={s.button}
                         styleText={{ color: "#001941" }}
                     >
@@ -46,6 +46,9 @@ function getStyle() {
             justifyContent: "space-between",
         },
         center: {
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "center"
         },
         text: {
             marginBottom: 10,

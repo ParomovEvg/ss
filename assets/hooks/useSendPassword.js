@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useDispatch} from "react-redux";
 import {reducerTypes} from "../../reducer/main";
-import req from "../scripts/fetchApi";
 import {useRequest} from "./useRequest";
 import {AUTH} from "../../server_constants";
 import * as SecureStore from "expo-secure-store";
@@ -20,7 +19,6 @@ export const useSendPassword = ({onError = () => {}, onEnd = () => {}}) => {
             }
         }).then( res =>{
             setIsLoading(false);
-            res = JSON.parse(res);
             if(res.token){
                 dispatch({
                     type:reducerTypes.phone,

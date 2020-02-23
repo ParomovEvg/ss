@@ -7,7 +7,6 @@ import BottomBar from "../../globalModules/BottomBar/index.js";
 import Сounter from './counter/counter.js';
 import NavLinck from '../../globalModules/navlinck.js';
 import Phone from './phone.js';
-import res  from '../../../assets/scripts/fetchApi.js';
 import {useDispatch, useSelector} from "react-redux";
 import {useQrNum} from "../../../assets/hooks/useQrNum";
 import {reducerTypes} from "../../../reducer/main";
@@ -21,9 +20,10 @@ export default function MenuRes(props){
     const style = LocalStyle(props);
 
     const back = () => {props.navigation.goBack()};
-    const toScaner = () => {props.navigation.navigate('Scanner')};
+    const toScanner = () => {props.navigation.navigate('Scanner')};
 
     const dispatch = useDispatch();
+
     const onChangePassword = () => {
         dispatch({
             type: reducerTypes.changingPassword,
@@ -56,7 +56,7 @@ export default function MenuRes(props){
                     </NavLinck>
                 </View>
             </ScrollView>
-            <BottomBar onPress={toScaner }/>
+            <BottomBar onPress={toScanner }/>
         </View>
     )
 }

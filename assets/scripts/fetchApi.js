@@ -14,12 +14,27 @@ const fetchConfig = data => ({
     body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
 });
 
+const c = {
+    val : null,
+
+    get l (){
+        return this.val;
+    },
+    set l (val){
+        console.log(val);
+      this.val = val
+    }
+}
+
 const API_URL = "http://a0319139.xsph.ru:4000/api/mobile";
+// const API_URL = "http://192,168,0.45:4000/api/mobile";
 
 function req(data){
     return fetch(API_URL, fetchConfig(data))
-                    .then(res => {
-                        return {...res.json(), _status: res.status}})
+        .then(async res => {
+            const json = await res.json();
+            return {data: json, status: res.status}
+        })
 }
 
 export {requestTypes}

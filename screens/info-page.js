@@ -4,21 +4,17 @@ import LocalStyle from "./info/localStyle";
 import TopBar from "./globalModules/TopBar";
 import colors from "../assets/colors";
 import BottomBar from "./globalModules/BottomBar";
-import {connect} from "react-redux";
 import Generate , {GenConstants} from "./toGeneration/Generate";
-const style = StyleSheet.create({
-    center:{
-        justifyContent:"center",
-        flexGrow: 1,
-    }
-})
+import { useSelector } from 'react-redux';
 
 
-const Information_page = ({navigation,info,id}) => {
+const InfoPage = ({navigation}) => {
 
     const style= LocalStyle();
-    const back = ()=>{ navigation.goBack() }
-    const toScaner = ()=>{ navigation.navigate('Scaner') };
+    const back = ()=>{ navigation.goBack() };
+    const toScanner = ()=>{ navigation.navigate('Scanner') };
+    const [{Info}, infoId] = useSelector(state => [state.text, state.infoId]);
+    console.log({Info, infoId})
 
     return(
         <View style={style.container}>
@@ -26,7 +22,7 @@ const Information_page = ({navigation,info,id}) => {
             <ScrollView
                 style={{paddingHorizontal:15,marginTop: 5}}
             >
-                {info[id].map((element, key) => {
+                {Info.question_page[infoId].map((element, key) => {
                     if(element.type === GenConstants.Head1 ){
                         return <Generate.Head1  key={key} >{element.text}</Generate.Head1>
                     }
@@ -45,16 +41,11 @@ const Information_page = ({navigation,info,id}) => {
                 })}
                 <View style={{height:20}}/>
             </ScrollView>
-            <BottomBar onPress={toScaner} />
+            <BottomBar onPress={toScanner} />
         </View>
     )
 };
 
-function mapStateToProps(store) {
-    return {
-        id: store.generate.info.activeId,
-        info: store.generate.info.question_page,
-    }
-}
 
-export default connect(mapStateToProps,{})(Information_page);
+
+export default InfoPage;

@@ -18,6 +18,7 @@
     "expo-permissions": "^5.0.1",
     "expo-web-browser": "^5.0.3",
     "express": "^4.17.1",
+    "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
@@ -31,6 +32,12 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.4.1"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "singleQuote": true
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1",

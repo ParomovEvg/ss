@@ -17,8 +17,10 @@ function Hello(props){
     const style = LocalStyle();
     const toInfo = () => {props.navigation.navigate('Info')};
     const toMenu = () => {props.navigation.navigate('Menu')};
-    const toScaner = () => {props.navigation.navigate('Scanner')};
-
+    const toScanner = () => {props.navigation.navigate('Scanner')};
+    if(!hello_text){
+        return <View/>
+    }
     return(
         <ViewBg source = {{uri:hello_text.bg_url}}>
             <View style={style.topBar}>
@@ -31,13 +33,13 @@ function Hello(props){
             </View>
             <View style={style.headBox}>
                 {hello_text.main_text.split(":").map(text => (
-                    <Text style={style.headText}>{text} </Text>
+                    <Text key={text} style={style.headText}>{text} </Text>
                 ))}
 
             </View>
             <View style={style.buttonBox}>
                 <Button
-                    onPress={ phone ? toScaner : toMenu }
+                    onPress={ phone ? toScanner : toMenu }
                 > Сканировать </Button>
                 <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
             </View>
