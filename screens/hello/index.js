@@ -1,51 +1,58 @@
 import React from 'react';
-import {StyleSheet,TouchableOpacity,  Text, View, Image } from 'react-native';
-import ViewBg from './ViewBg.js'
-const bgImage = require("./img/bg.jpg");
+import { StyleSheet, TouchableOpacity, Text, View, Image } from 'react-native';
+import ViewBg from './ViewBg.js';
 import LocalStyle from './locStyle.js';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../globalModules/button/button.js';
-import { useSelector} from 'react-redux';
+import { useContentImgFactory } from '../../assets/hooks/useContentImfFactory';
+import { homeImgFields, homeTextFields, screensList } from '../../assets/constants';
+import { useContentTextField } from '../../assets/hooks/useContentTextField';
+import { selectIsLogin } from '../../store/authSlice';
+import { useSelector } from 'react-redux';
 
+function Hello(props) {
+  const bgUrl = useContentImgFactory(screensList.home, homeImgFields.bg);
+  const logoUrl = useContentImgFactory(screensList.home, homeImgFields.logo);
+  const mainTitle = useContentTextField(screensList.home, homeTextFields.mainTitle);
+  const readMoreButton = useContentTextField(screensList.home, homeTextFields.readMoreButton);
+  const scanQrButton = useContentTextField(screensList.home, homeTextFields.scanQrButton);
+  const isLogin = useSelector(selectIsLogin);
 
-
-function Hello(props){
-
-    const phone = useSelector(store => store.phone);
-    let hello_text = useSelector( store => store.text.Hello);
-
-    const style = LocalStyle();
-    const toInfo = () => {props.navigation.navigate('Info')};
-    const toMenu = () => {props.navigation.navigate('Menu')};
-    const toScanner = () => {props.navigation.navigate('Scanner')};
-    if(!hello_text){
-        return <View/>
-    }
-    return(
-        <ViewBg source = {{uri:hello_text.bg_url}}>
-            <View style={style.topBar}>
-                <View>
-                    <Image resizeMode = "contain" style={style.logo} source = {{uri:hello_text.logo_url}}/>
-                </View>
-                <TouchableOpacity  onPress={toMenu} >
-                    <Ionicons  name="ios-menu" size={32} color="#fff" />
-                </TouchableOpacity>
-            </View>
-            <View style={style.headBox}>
-                {hello_text.main_text.split(":").map(text => (
-                    <Text key={text} style={style.headText}>{text} </Text>
-                ))}
-
-            </View>
-            <View style={style.buttonBox}>
-                <Button
-                    onPress={ phone ? toScanner : toMenu }
-                > Сканировать </Button>
-                <Button  onPress={toInfo} style={{backgroundColor: "#e5e5e5", marginTop: 10,}} styleText={{color:"#001941"}}> Узнать больше </Button>
-            </View>
-        </ViewBg>
-    )
+  const style = LocalStyle();
+  const toInfo = () => {
+    props.navigation.navigate('Info');
+  };
+  const toMenu = () => {
+    props.navigation.navigate('Menu');
+  };
+  const toScanner = () => {
+    props.navigation.navigate('Scanner');
+  };
+  return (
+    <ViewBg source={{ uri: bgUrl }}>
+      <View style={style.topBar}>
+        <View>
+          <Image resizeMode="contain" style={style.logo} source={{ uri: logoUrl }} />
+        </View>
+        <TouchableOpacity onPress={toMenu}>
+          <Ionicons name="ios-menu" size={32} color="#fff" />
+        </TouchableOpacity>
+      </View>
+      <View style={style.headBox}>
+        {mainTitle.split('\n').map(text => (
+          <Text key={text} style={style.headText}>
+            {text}
+          </Text>
+        ))}
+      </View>
+      <View style={style.buttonBox}>
+        <Button onPress={isLogin ? toScanner : toMenu}> {scanQrButton} </Button>
+        <Button onPress={toInfo} style={{ backgroundColor: '#e5e5e5', marginTop: 10 }} styleText={{ color: '#001941' }}>
+          {readMoreButton}
+        </Button>
+      </View>
+    </ViewBg>
+  );
 }
-
 
 export default Hello;

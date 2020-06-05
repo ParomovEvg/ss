@@ -10,7 +10,7 @@ import PhoneField from './phone.js';
 import {useDispatch, useSelector} from "react-redux";
 import Password from "./password";
 import {Choice} from "./Choice";
-import {reducerTypes} from "../../../reducer/main";
+import {reducerTypes} from "../../../store/main";
 
 
 export default function MenuRej (props){

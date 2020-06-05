@@ -1,33 +1,29 @@
-import {useState, useEffect} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import {reducerTypes} from "../../reducer/main";
-import {useRequest} from "./useRequest";
-import {AUTH} from "../../server_constants";
-import {useTimerAddPassword} from "./useTimerAddPassword";
+import { useState } from 'react';
+import { useTimerAddPassword } from './useTimerAddPassword';
+import { api } from '../../api/api';
+import { useContentTextField } from './useContentTextField';
+import { menuLoginTextFields, screensList } from '../constants';
 
 export const useAddPassword = (onEnd = () => {}) => {
-
     const [timer, setTimer] = useTimerAddPassword();
-
-    const req = useRequest();
     const [isLoading, setIsLoading] = useState(false);
-    const addPassword = (phone) => {
-        if(timer > 0){
+    const timerLength = useContentTextField(screensList.menuLogin, menuLoginTextFields.timerLength);
+    const addPassword = phone => {
+        if (timer > 0) {
             return false;
         }
-        setIsLoading(true);
-        req({
-            type: AUTH.ADD_PASS,
-            body:{
+        api.post('auth/generatePassword', {
+            body: {
                 phone,
-            }
-        }).then( res =>{
-            setIsLoading(false);
-            onEnd(res);
-            setTimer(120)
-        });
+            },
+        })
+            .json()
+            .then(res => {
+                onEnd(res);
+                setTimer(timerLength);
+            })
+            .finally(() => setIsLoading(false));
     };
 
     return [isLoading, addPassword];
-
 };

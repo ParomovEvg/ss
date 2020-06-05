@@ -9,7 +9,7 @@ import NavLinck from '../../globalModules/navlinck.js';
 import Phone from './phone.js';
 import {useDispatch, useSelector} from "react-redux";
 import {useQrNum} from "../../../assets/hooks/useQrNum";
-import {reducerTypes} from "../../../reducer/main";
+import {reducerTypes} from "../../../store/main";
 
 
 export default function MenuRes(props){

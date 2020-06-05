@@ -20,22 +20,22 @@ export const useSendQr = ()=>{
     }, []);
 
     const sendQr = useCallback ((qrString) => {
-        setIsLoading(true);
-        console.log({qrString});
-        req({
-            type:QR.ADD_QR,
-            xml:qrString,
-            body:{
-                phone,
-                token,
-            }
-        }).then((res)=>{
-            setRes(res);
-        }).catch(({text = "Что то пошло не так"}) =>{
-            setError(text);
-        }).finally(()=>{
-            setIsLoading(false);
-        })
+        // setIsLoading(true);
+        // console.log({qrString});
+        // req({
+        //     type:QR.ADD_QR,
+        //     xml:qrString,
+        //     body:{
+        //         phone,
+        //         token,
+        //     }
+        // }).then((res)=>{
+        //     setRes(res);
+        // }).catch(({text = "Что то пошло не так"}) =>{
+        //     setError(text);
+        // }).finally(()=>{
+        //     setIsLoading(false);
+        // })
     }, [phone, token]);
 
     return {res, error, isLoading,dumpQr, sendQr};

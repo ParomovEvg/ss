@@ -1,38 +1,24 @@
-
-import {useEffect, useCallback} from 'react'
-import {useDispatch, useSelector} from "react-redux";
-import {reducerTypes} from "../../reducer/main";
-
-
-let isTimer = false;
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { addPasswordTimerSlice, selectAddPasswordTimer } from '../../store/addPasswordTimerSlice';
+import { useAction } from './useAction';
 
 export const useTimerAddPassword = () => {
-    const timer = useSelector(state => state[reducerTypes.addPasswordTimer]);
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        const id = setInterval(()=>{
-            console.log("1234", timer);
-            if(timer > 0){
-                dispatch({
-                    type:reducerTypes.addPasswordTimer,
-                    value: timer - 1
-                })
+    const timer = useSelector(selectAddPasswordTimer);
+    const tick = useAction(addPasswordTimerSlice.actions.tick);
+    const setTimer = useAction(addPasswordTimerSlice.actions.setTimer);
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (timer <= 0) {
+                clearInterval(id);
+            } else {
+                tick();
             }
         }, 1000);
 
-        return ()=>{
-            clearInterval(id)
-        }
-    }, [timer]);
-
-    const setTimer = useCallback(
-        (sec) => {
-            dispatch({
-                type:reducerTypes.addPasswordTimer,
-                value: sec
-            })
-        }, []
-    );
-
-    return [timer, setTimer]
+        return () => {
+            clearInterval(id);
+        };
+    }, []);
+    return [timer, setTimer];
 };

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
-import { reducerTypes } from '../../reducer/main';
+import { reducerTypes } from '../../store/main';
 
 export const useOpenIp = navigation => {
     const dispatch = useDispatch();

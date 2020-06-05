@@ -1,6 +1,6 @@
 import req from '../scripts/fetchApi';
 import { useDispatch } from 'react-redux';
-import { reducerTypes } from '../../reducer/main';
+import { reducerTypes } from '../../store/main';
 
 export const useRequest = () => {
     const dispatch = useDispatch();
