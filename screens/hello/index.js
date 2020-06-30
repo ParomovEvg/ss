@@ -16,6 +16,7 @@ function Hello(props) {
   const mainTitle = useContentTextField(screensList.home, homeTextFields.mainTitle);
   const readMoreButton = useContentTextField(screensList.home, homeTextFields.readMoreButton);
   const scanQrButton = useContentTextField(screensList.home, homeTextFields.scanQrButton);
+  const testText = useContentTextField(screensList.home, 'testField');
   const isLogin = useSelector(selectIsLogin);
 
   const style = LocalStyle();
@@ -42,6 +43,7 @@ function Hello(props) {
         {mainTitle.split('\n').map(text => (
           <Text key={text} style={style.headText}>
             {text}
+            {testText}
           </Text>
         ))}
       </View>

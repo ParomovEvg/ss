@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,Text, StyleSheet, TouchableOpacity, Linking} from 'react-native'
-import colors from "../../assets/colors";
+import colors from "../../../assets/colors";
 import * as WebBrowser from 'expo-web-browser';
 
 const style = StyleSheet.create({

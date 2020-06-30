@@ -1,18 +1,18 @@
 import React from 'react';
 import {View,Text, StyleSheet} from 'react-native'
-import colors from "../../assets/colors";
+import colors from "../../../assets/colors";
 const style = StyleSheet.create({
     text:{
         color: colors.main,
-        fontSize: 32,
+        fontSize: 20,
         marginBottom: 15,
-        marginTop: 10,
-        lineHeight: 35,
-        fontWeight: "700",
+        marginTop: 5,
+        lineHeight: 30,
+        fontWeight: "600",
     }
 })
 
-const Head1 = ({children}) => {
+const Head2 = ({children}) => {
     return (
         <Text style={style.text}>
             {children}
@@ -20,6 +20,6 @@ const Head1 = ({children}) => {
     );
 };
 
-export default Head1;
+export default Head2;
 
 

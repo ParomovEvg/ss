@@ -1,47 +1,27 @@
-import {useState, useEffect} from 'react'
-import {useDispatch} from "react-redux";
-import {reducerTypes} from "../../store/main";
-import {useRequest} from "./useRequest";
-import {AUTH} from "../../server_constants";
-import * as SecureStore from "expo-secure-store";
+import { useState } from 'react';
+import { useAction } from './useAction';
+import { asyncLogin } from '../../store/authSlice';
+import ky from 'ky';
 
-export const useSendPassword = ({onError = () => {}, onEnd = () => {}}) => {
-    const dispatch = useDispatch();
-    const req = useRequest();
-    const [isLoading, setIsLoading] = useState(false);
-    const sendPassword = (phone, pass) => {
-        // setIsLoading(true);
-        // return  req({
-        //     type: AUTH.SEND_PASSWORD,
-        //     body:{
-        //         phone,
-        //         pass,
-        //     }
-        // }).then( res =>{
-        //     setIsLoading(false);
-        //     if(res.token){
-        //         dispatch({
-        //             type:reducerTypes.phone,
-        //             value:res.phone
-        //         });
-        //         SecureStore.setItemAsync(reducerTypes.phone, res.phone);
-        //         dispatch({
-        //             type:reducerTypes.token,
-        //             value:res.token,
-        //         });
-        //         SecureStore.setItemAsync(reducerTypes.token, res.token);
-        //         dispatch({
-        //             type: reducerTypes.changingPassword,
-        //             value: false,
-        //         });
-        //         onEnd(res);
-        //     } else {
-        //         onError('Неверный пароль')
-        //     }
-        //     return res
-        // });
-    };
-
-    return [isLoading, sendPassword]
-
+export const useSendPassword = ({ onError = () => {}, onEnd = () => {} }) => {
+  const loginAction = useAction(asyncLogin);
+  const [isLoading, setIsLoading] = useState(false);
+  const sendPassword = (phone, password) => {
+    setIsLoading(true);
+    return ky
+      .post('https://paromov.ru/auth', {
+        json: {
+          phone,
+          password,
+        },
+      })
+      .json()
+      .then(r => r.payload.access_token)
+      .then(token => {
+        loginAction({ phone, password, token });
+      })
+      .catch(e => onError('неверный логин или пароль'))
+      .finally(() => setIsLoading(false));
+  };
+  return [isLoading, sendPassword];
 };

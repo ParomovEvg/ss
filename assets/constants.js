@@ -1,19 +1,21 @@
 export const screensList = {
-    home: 'home',
-    menuLogin: 'menuLogin',
+  home: 'home',
+  menuLogin: 'menuLogin',
+  bottomBar: 'bottomBar',
+  info: 'info',
 };
 
 export const homeTextFields = {
-    mainTitle: 'mainTitle',
-    readMoreButton: 'readMoreButton',
-    scanQrButton: 'scanQrButton',
-    newField: 'newField',
+  mainTitle: 'mainTitle',
+  readMoreButton: 'readMoreButton',
+  scanQrButton: 'scanQrButton',
+  newField: 'newField',
 };
 export const homeImgFields = {
-    logo: 'logo',
-    bg: 'bg',
+  logo: 'logo',
+  bg: 'bg',
 };
 export const menuLoginTextFields = {
-    titleText: 'titleText',
-    timerLength: 'timerLength',
+  titleText: 'titleText',
+  timerLength: 'timerLength',
 };
